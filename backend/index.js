@@ -1,12 +1,16 @@
 var express = require('express')
 var cors = require('cors')
 var mongoose = require('mongoose')
+const dotEnv = require('dotenv')
+
+
+
 
 var app = express()
-
+dotEnv.config();
 app.use(cors())
 
-app.get('/products/:id', function (req, res, next) {
+app.get('/', function (req, res, next) {
   res.json({msg: 'This is CORS-enabled for all origins!'})
 })
 
