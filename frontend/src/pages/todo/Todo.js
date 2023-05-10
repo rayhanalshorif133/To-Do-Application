@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import './Todo.css';
 import TodoDetails from './_partials/TodoDetails';
 import TodoList from './_partials/TodoList';
 
@@ -7,7 +8,7 @@ export default function Todo() {
  return (
   <>
    <Container>
-    <h1 className='mt-2 text-center'>Todo</h1>
+    <h1 className='mt-2 todo_title'>Todo</h1>
     <hr />
     <Row>
      <Col>
