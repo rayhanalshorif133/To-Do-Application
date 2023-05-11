@@ -8,7 +8,7 @@ const todoController = require('../controllers/todoController');
 
 router.get('/', async (req, res) => {
 
-    const todos = await Todo.find({});
+    const todos = await Todo.find({}).sort({ _id: -1 });
     res.status(200).json({
         data: todos,
         message: 'Get all todos'
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 // Get a todo by id
 
-router.get('/:id', async (req, res) => {});
+router.get('/:id', async (req, res) => { });
 
 // Add a todo
 
@@ -33,11 +33,11 @@ router.post('/create', async (req, res) => {
 
 // Update a todo
 
-router.put('/:id', async (req, res) => {});
+router.put('/:id', async (req, res) => { });
 
 // Delete a todo
 
-router.delete('/:id', async (req, res) => {});
+router.delete('/:id', async (req, res) => { });
 
 
 module.exports = router;

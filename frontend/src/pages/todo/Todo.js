@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Col, Container, Row, Button, Modal } from 'react-bootstrap';
-import TodoDetails from './_partials/TodoDetails';
-import TodoList from './_partials/TodoList';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import './Todo.css';
 import AddTodoModal from './_partials/Modals/AddTodoModal';
+import TodoDetails from './_partials/TodoDetails';
+import TodoList from './_partials/TodoList';
 
 export default function Todo() {
 
@@ -11,6 +11,8 @@ export default function Todo() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+
 
 
     return (

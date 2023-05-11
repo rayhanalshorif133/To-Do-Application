@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Form,Modal, Button } from 'react-bootstrap'
 import axios from 'axios';
+import React, { useState } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
+
+
+import { toast, ToastContainer } from 'react-toastify';
+
 
 export default function AddTodoModal({ show, handleClose }) {
+
 
   const [todo, setTodo] = useState({
     title: '',
     description: ''
   });
 
-
-
-  // UseEffect to handle input change
-  useEffect(() => {
-    // const data = fetch('/todo')
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     console.log(data);
-    //   });
-
-  });
 
 
   // Method to handle input change
@@ -39,20 +33,26 @@ export default function AddTodoModal({ show, handleClose }) {
       description: todo.description
     }
     axios.post('/todo/create', newTodo)
-    .then(res => {
-      const { data,status } = res;
-      if(status === 200){
-        console.log(data);
-        handleClose();
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+      .then(res => {
+        const { data, status } = res;
+        if (status === 200) {
+          handleClose();
+          toast.success("Todo task has been successfully added !", {
+            position: toast.POSITION.TOP_CENTER
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      }).catch(err => {
+        console.log(err);
+      });
   };
 
 
   return (
     <>
+      <ToastContainer />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -63,11 +63,11 @@ export default function AddTodoModal({ show, handleClose }) {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="email" name="title" placeholder="name@example.com" onChange={handleSetTodo} value={todo.title}/>
+              <Form.Control type="email" name="title" placeholder="name@example.com" onChange={handleSetTodo} value={todo.title} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={3} name='description' onChange={handleSetTodo} value={todo.description}/>
+              <Form.Control as="textarea" rows={3} name='description' onChange={handleSetTodo} value={todo.description} />
             </Form.Group>
           </Form>
         </Modal.Body>

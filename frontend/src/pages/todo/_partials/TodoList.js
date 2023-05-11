@@ -1,38 +1,42 @@
-import React, { useEffect, useState } from 'react'
-import TodoCard from './Cards/TodoCard'
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import TodoCard from './Cards/TodoCard';
 
 export default function TodoList() {
 
 
-    const [todo, setTodo] = useState([{
-        title: '',
-        description: ''
-    }]);
+    const [todo, setTodo] = useState([]);
+
+    const [flag, setFlag] = useState(false);
 
 
-    const  fetchTodoData = () =>{
-
+    const fetchTodoData = async () => {
         await axios.get('http://localhost:3001/todo')
-            .then(data => {
-                setTodo({
-                    ...todo,
-                    data
-                });
+            .then(res => {
+                if (res.status == 200) {
+                    const { data } = res.data;
+                    if (data.length > 0) {
+                        setTodo(data);
+                    }
+                }
+                setFlag(true);
             });
-            console.log(todo);
     };
 
 
     // UseEffect to handle input change
     useEffect(() => {
         fetchTodoData();
-    });
-    
+    }, [flag]);
 
- return (
-  <>
-   <TodoCard />
-  </>
- )
+
+    return (
+        <>
+            {todo.map((item, index) => {
+                return (
+                    <TodoCard key={index} title={item.title} description={item.description} />
+                )
+            })}
+        </>
+    )
 }
