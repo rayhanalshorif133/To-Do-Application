@@ -1,7 +1,10 @@
 import React from 'react'
+import TodoDetailsCard from './Cards/TodoDetailsCard'
 
 export default function TodoDetails() {
  return (
-  <div>TodoDetails</div>
+  <>
+    <TodoDetailsCard/>
+  </>
  )
 }

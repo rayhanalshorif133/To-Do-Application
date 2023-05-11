@@ -1,0 +1,10 @@
+.main {
+    background:#090979;
+    background: linear-gradient(90deg, rgb(33, 28, 122) 0%, #393997 35%, #00d4ff 100%);
+    height: 100vh;
+}
+
+.content__body{
+    /* shaddow */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
+}

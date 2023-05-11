@@ -1,0 +1,9 @@
+.todo_card .card{
+    transition: all 0.3s ease-in-out;
+}
+.todo_card .card:hover{
+    cursor: pointer;
+    background: #fa3a77;
+    transform: scale(1.01);
+    color: white;
+}

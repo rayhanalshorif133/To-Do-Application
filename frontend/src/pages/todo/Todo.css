@@ -1,7 +1,27 @@
-.todo_title{
- background: rgb(2,0,36);
- background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+.todo h4{
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+.todo .addBtn{
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #1E90FF;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+}
+.todo h1{
  color: white;
  padding: 10px;
  text-align: center;
+}
+
+.btn-green {
+    color: #000;
+    background: #099872;
+    border-color: #099872;
 }
