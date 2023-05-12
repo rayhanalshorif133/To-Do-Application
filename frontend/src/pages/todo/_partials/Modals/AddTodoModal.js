@@ -1,53 +1,11 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 
 
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 
-export default function AddTodoModal({ show, handleClose }) {
-
-
-  const [todo, setTodo] = useState({
-    title: '',
-    description: ''
-  });
-
-
-
-  // Method to handle input change
-  const handleSetTodo = (event) => {
-    const { name, value } = event.target;
-    setTodo({
-      ...todo,
-      [name]: value
-    });
-  };
-
-  // Method to handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newTodo = {
-      title: todo.title,
-      description: todo.description
-    }
-    axios.post('/todo/create', newTodo)
-      .then(res => {
-        const { data, status } = res;
-        if (status === 200) {
-          handleClose();
-          toast.success("Todo task has been successfully added !", {
-            position: toast.POSITION.TOP_CENTER
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-        }
-      }).catch(err => {
-        console.log(err);
-      });
-  };
+export default function AddTodoModal({ show, handleClose, handleSetTodo, handleSubmit, todo }) {
 
 
   return (

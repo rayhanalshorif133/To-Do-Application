@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import './Todo.css';
 import AddTodoModal from './_partials/Modals/AddTodoModal';
 import TodoDetails from './_partials/TodoDetails';
@@ -8,10 +10,69 @@ import TodoList from './_partials/TodoList';
 export default function Todo() {
 
     const [show, setShow] = useState(false);
+    const [todoData, setTodoData] = useState([]);
+    const [flag, setFlag] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [todo, setTodo] = useState({
+        title: '',
+        description: ''
+    });
+
+
+
+    // Method to handle input change
+    const handleSetTodo = (event) => {
+        const { name, value } = event.target;
+        setTodo({
+            ...todo,
+            [name]: value
+        });
+    };
+
+
+    // Method to handle form submit
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newTodo = {
+            title: todo.title,
+            description: todo.description
+        }
+        axios.post('/todo/create', newTodo)
+            .then(res => {
+                const { data, status } = res;
+                if (status === 200) {
+                    handleClose();
+                    toast.success("Todo task has been successfully added !", {
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                    fetchTodoData();
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+    };
+
+
+    const fetchTodoData = async () => {
+        await axios.get('http://localhost:3001/todo')
+            .then(res => {
+                if (res.status == 200) {
+                    const { data } = res.data;
+                    if (data.length > 0) {
+                        setTodoData(data);
+                    }
+                }
+                setFlag(true);
+            });
+    };
+
+
+    useEffect(() => {
+        fetchTodoData();
+    }, [flag]);
 
 
 
@@ -28,7 +89,7 @@ export default function Todo() {
                 <Row>
                     <Col>
                         <h4>Todo List</h4>
-                        <TodoList />
+                        <TodoList todoData={todoData} />
                     </Col>
                     <Col></Col>
                     <Col>
@@ -37,7 +98,13 @@ export default function Todo() {
                     </Col>
                 </Row>
             </Container>
-            <AddTodoModal show={show} handleClose={handleClose} />
+            <AddTodoModal
+                show={show}
+                todo={todo}
+                handleClose={handleClose}
+                handleSetTodo={handleSetTodo}
+                handleSubmit={handleSubmit}
+            />
         </div>
     )
 }
