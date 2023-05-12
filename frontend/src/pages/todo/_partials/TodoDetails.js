@@ -2,7 +2,6 @@ import React from 'react';
 import { Badge, Card } from 'react-bootstrap';
 
 export default function TodoDetails({ todo }) {
-  console.log(todo.id);
   return (
     <>
       {todo.id ? <>

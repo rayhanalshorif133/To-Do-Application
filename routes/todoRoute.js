@@ -18,6 +18,8 @@ router.post('/create', todoController.addTodo);
 
 // Update a todo
 
+router.put('/check/:id', todoController.updateCheckTodo)
+
 router.put('/:id', async (req, res) => { });
 
 // Delete a todo

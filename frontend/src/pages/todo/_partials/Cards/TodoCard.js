@@ -1,15 +1,33 @@
 import { faCheck, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, ButtonGroup, Card } from 'react-bootstrap'
 import Swal from 'sweetalert2'
+import { GlobalVariableContext } from '../../../../contextProvider/GlobalVariableContextProvider'
 import './TodoCard.css'
 
 export default function TodoCard(props) {
 
+  const { api_base_url } = useContext(GlobalVariableContext)
+
   const { index, id, title, fetchTodoData, setSelectedTodo } = props;
 
+  console.log(api_base_url);
+
+  const handleCheckTodoBtn = (id) => {
+    axios.put(api_base_url + 'todo/check/' + id)
+      .then(res => {
+        const { status } = res;
+        if (status === 200) {
+          fetchTodoData();
+        }
+      }).catch(err => {
+        console.log(err);
+      }
+      );
+    // check
+  };
 
   const handleDeleteTodoBtn = (id) => {
     return () => {
@@ -39,6 +57,8 @@ export default function TodoCard(props) {
   };
 
 
+
+
   return (
     <div className='todo_card'>
       <Card body className='card_body' onClick={() => { setSelectedTodo(id) }}>
@@ -48,7 +68,7 @@ export default function TodoCard(props) {
           </div>
           <div>
             <ButtonGroup size="sm">
-              <Button onClick={() => { }} variant="outline-primary" size='sm'>
+              <Button onClick={() => { handleCheckTodoBtn(id) }} variant="outline-primary" size='sm'>
                 <FontAwesomeIcon icon={faCheck} />
               </Button>
               <Button onClick={() => { }} variant="outline-info" size='sm'>

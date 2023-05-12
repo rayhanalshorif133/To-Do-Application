@@ -3,12 +3,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 import Routes from "./Routes";
 import Header from "./components/Header";
+import GlobalVariableContextProvider from "./contextProvider/GlobalVariableContextProvider";
+
+
 function App() {
   return (
     <div className="main">
       <Header />
       <div className="content__body">
-        <Routes />
+        <GlobalVariableContextProvider>
+          <Routes />
+        </GlobalVariableContextProvider>
       </div>
     </div>
   );

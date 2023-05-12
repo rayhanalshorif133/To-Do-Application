@@ -8,7 +8,9 @@ const todoController = {};
 // get all todos
 
 todoController.getAllTodos = async (req, res) => {
-    const todos = await Todo.find({}).sort({ _id: -1 });
+    const todos = await Todo.find({
+        status: 'pending'
+    }).sort({ _id: -1 });
     res.status(200).json({
         data: todos,
         message: 'Get all todos'
@@ -37,6 +39,13 @@ todoController.addTodo = async (req, res) => {
 };
 
 // update a todo
+todoController.updateCheckTodo = async (req, res) => {
+    const { id } = req.params;
+    const todo = await Todo.findById(id);
+    todo.status = 'completed';
+    const updatedTodo = await todo.save();
+    res.status(200).json(updatedTodo);
+};
 
 
 
