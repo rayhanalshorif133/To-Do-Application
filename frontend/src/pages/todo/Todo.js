@@ -99,7 +99,7 @@ export default function Todo() {
                                 </Placeholder>
                             </>
                             :
-                            <TodoList todoData={todoData} />
+                            <TodoList todoData={todoData} fetchTodoData={fetchTodoData} />
                         }
                     </Col>
                     <Col></Col>
