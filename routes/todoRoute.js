@@ -10,7 +10,7 @@ router.get('/', todoController.getAllTodos);
 
 // Get a todo by id
 
-router.get('/:id', async (req, res) => { });
+router.get('/:id', todoController.getTodoById);
 
 // Add a todo
 

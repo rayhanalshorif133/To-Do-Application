@@ -3,7 +3,7 @@
 * Description: Server file for todo app
 * Author: Rayhan Al Shorif
 * Date: 11-May-2023
-*/ 
+*/
 
 
 // Dependencies
@@ -29,10 +29,10 @@ const uri = process.env.ATLAS_URI;
 async function dbConnection() {
 
   await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((db) => {
-    console.log('Connected correctly to MongoDB');
-  })
-  .catch((err) => console.log(err));
+    .then((db) => {
+      console.log('Connected correctly to MongoDB');
+    })
+    .catch((err) => console.log("DB Connection Error: "));
 }
 
 

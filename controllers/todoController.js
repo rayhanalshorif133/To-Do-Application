@@ -17,6 +17,12 @@ todoController.getAllTodos = async (req, res) => {
 
 
 // get a todo by id
+todoController.getTodoById = async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const todo = await Todo.findById(id);
+    res.status(200).json(todo);
+};
 
 
 // add a todo

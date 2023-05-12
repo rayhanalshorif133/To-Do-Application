@@ -1,7 +1,10 @@
 import React, { Suspense } from 'react';
 import TodoCard from './Cards/TodoCard';
 
-export default function TodoList({ todoData, fetchTodoData }) {
+export default function TodoList(props) {
+
+
+    const { todoData, fetchTodoData, setSelectedTodo } = props;
 
     return (
         <>
@@ -10,8 +13,8 @@ export default function TodoList({ todoData, fetchTodoData }) {
                     return (
                         <TodoCard key={index}
                             index={index} id={item._id} title={item.title}
-                            description={item.description}
                             fetchTodoData={fetchTodoData}
+                            setSelectedTodo={setSelectedTodo}
                         />
                     )
                 })}

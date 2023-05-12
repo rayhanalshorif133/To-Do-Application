@@ -6,3 +6,9 @@
     background: #fff9fb;
     transform: scale(1.02);
 }
+.card_body{
+    padding: 0;
+    height: 2.8rem;
+    margin: auto;
+    justify-content: center;
+}

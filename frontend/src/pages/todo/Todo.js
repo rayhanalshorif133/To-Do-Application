@@ -13,6 +13,7 @@ export default function Todo() {
     const [show, setShow] = useState(false);
     const [todoData, setTodoData] = useState([]);
     const [flag, setFlag] = useState(false);
+    const [selectedTodo, setSelectedTodo] = useState({});
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -43,7 +44,7 @@ export default function Todo() {
         }
         axios.post('/todo/create', newTodo)
             .then(res => {
-                const { data, status } = res;
+                const { status } = res;
                 if (status === 200) {
                     handleClose();
                     toast.success("Todo task has been successfully added !", {
@@ -60,7 +61,7 @@ export default function Todo() {
     const fetchTodoData = async () => {
         await axios.get('http://localhost:3001/todo')
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     const { data } = res.data;
                     if (data.length > 0) {
                         setTodoData(data);
@@ -69,13 +70,28 @@ export default function Todo() {
                 setFlag(true);
             });
     };
+    const fetchTodoDataById = async (id) => {
+        await axios.get(`http://localhost:3001/todo/${id}`)
+            .then(res => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    if (data) {
+                        setSelectedTodo({
+                            id: data._id,
+                            title: data.title,
+                            description: data.description,
+                            status: data.status,
+                            date: data.date
+                        });
+                    }
+                }
+            });
+    };
 
 
     useEffect(() => {
         fetchTodoData();
     }, [flag]);
-
-
 
     return (
         <div className='todo'>
@@ -99,13 +115,14 @@ export default function Todo() {
                                 </Placeholder>
                             </>
                             :
-                            <TodoList todoData={todoData} fetchTodoData={fetchTodoData} />
+                            <TodoList todoData={todoData} fetchTodoData={fetchTodoData}
+                                setSelectedTodo={fetchTodoDataById} />
                         }
                     </Col>
                     <Col></Col>
                     <Col>
                         <h4>Todo Details</h4>
-                        <TodoDetails />
+                        <TodoDetails todo={selectedTodo} />
                     </Col>
                 </Row>
             </Container>
@@ -118,9 +135,4 @@ export default function Todo() {
             />
         </div>
     )
-}
-
-
-function Loading() {
-    return <h2>🌀 Loading...</h2>;
 }
