@@ -3,7 +3,6 @@
 }
 .todo_card .card:hover{
     cursor: pointer;
-    background: #fa3a77;
-    transform: scale(1.01);
-    color: white;
+    background: #fff9fb;
+    transform: scale(1.02);
 }

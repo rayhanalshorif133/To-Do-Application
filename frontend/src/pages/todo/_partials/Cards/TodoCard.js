@@ -1,6 +1,9 @@
+import { faCheck, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Button, ButtonGroup, Card } from 'react-bootstrap'
 import './TodoCard.css'
+
 
 export default function TodoCard({ index, title, description }) {
  return (
@@ -14,11 +17,16 @@ export default function TodoCard({ index, title, description }) {
        </div>
        <div>
         <ButtonGroup size="sm">
-         <Button>Left</Button>
-         <Button>Middle</Button>
-         <Button>Right</Button>
+         <Button onClick={() => { }} variant="outline-primary" size='sm'>
+          <FontAwesomeIcon icon={faCheck} />
+         </Button>
+         <Button onClick={() => { }} variant="outline-info" size='sm'>
+          <FontAwesomeIcon icon={faPen} />
+         </Button>
+         <Button onClick={() => { }} variant="outline-danger" size='sm'>
+          <FontAwesomeIcon icon={faTrash} />
+         </Button>
         </ButtonGroup>
-        <Button onClick={() => { }} variant='success' size='sm' className='me-2'>Done</Button>
        </div>
       </div>
      </Card.Title>

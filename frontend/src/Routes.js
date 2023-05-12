@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
  createBrowserRouter,
  RouterProvider,
@@ -13,7 +13,11 @@ const router = createBrowserRouter([
  },
  {
   path: "/todo",
-  element: <Todo />,
+  element: <>
+   <Suspense fallback={<h2>🌀 Loading...</h2>}>
+    <Todo />
+   </Suspense>
+  </>,
  },
 ]);
 

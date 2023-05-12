@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import Placeholder from 'react-bootstrap/Placeholder';
 import { toast } from 'react-toastify';
 import './Todo.css';
 import AddTodoModal from './_partials/Modals/AddTodoModal';
@@ -89,7 +90,17 @@ export default function Todo() {
                 <Row>
                     <Col>
                         <h4>Todo List</h4>
-                        <TodoList todoData={todoData} />
+                        {todoData.length === 0 ?
+                            <>
+                                <Placeholder animation="glow" className='text-white'>
+                                    <Placeholder style={{ width: '60%' }} /> <br />
+                                    <Placeholder style={{ width: '40%' }} /> <br />
+                                    <Placeholder style={{ width: '25%' }} />
+                                </Placeholder>
+                            </>
+                            :
+                            <TodoList todoData={todoData} />
+                        }
                     </Col>
                     <Col></Col>
                     <Col>
@@ -107,4 +118,9 @@ export default function Todo() {
             />
         </div>
     )
+}
+
+
+function Loading() {
+    return <h2>🌀 Loading...</h2>;
 }
