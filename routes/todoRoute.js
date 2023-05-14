@@ -25,7 +25,7 @@ router.post('/create', todoController.addTodo);
 
 router.put('/check/:id', todoController.updateCheckTodo)
 
-router.put('/:id', async (req, res) => { });
+router.put('/update', todoController.updateTodo);
 
 // Delete a todo
 

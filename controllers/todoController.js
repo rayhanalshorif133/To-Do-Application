@@ -51,6 +51,25 @@ todoController.addTodo = async (req, res) => {
     res.status(200).json(newTodo);
 };
 
+
+// update a todo
+todoController.updateTodo = async (req, res) => {
+
+    const { id, title, description } = req.body;
+    
+    let doc = await Todo.findOneAndUpdate({
+        _id: id
+    }, {
+        $set:{
+            title: title,
+        }
+    }, { new: true});
+
+    res.status(200).json(doc);
+
+
+};
+
 // update a todo
 todoController.updateCheckTodo = async (req, res) => {
     const { id } = req.params;

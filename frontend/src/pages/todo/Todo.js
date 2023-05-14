@@ -78,6 +78,7 @@ export default function Todo() {
                 setFlag(true);
             });
     };
+    
     const fetchTodoDataById = async (id) => {
         await axios.get(`http://localhost:3001/todo/${id}`)
             .then(res => {

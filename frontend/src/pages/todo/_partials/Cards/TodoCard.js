@@ -1,18 +1,24 @@
 import { faCheck, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios'
-import React, { useContext } from 'react'
-import { Button, ButtonGroup, Card } from 'react-bootstrap'
+import React, { useContext, useState } from 'react'
+import { Button, ButtonGroup, Card, Modal } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import { GlobalVariableContext } from '../../../../contextProvider/GlobalVariableContextProvider'
 import './TodoCard.css'
 import { toast } from 'react-toastify'
+import UpdateTodoModal from '../Modals/UpdateTodoModal'
 
 export default function TodoCard(props) {
 
   const { api_base_url } = useContext(GlobalVariableContext)
 
   const { index, id, title, fetchTodoData, setSelectedTodo } = props;
+
+  const [showEditModel, setShowEditModel] = useState(false);
+  const [editTodoFetch, setEditTodoFetch] = useState({});
+
+  const handleClose = () => setShowEditModel(false);
 
 
   const handleCheckTodoBtn = (id) => {
@@ -37,6 +43,22 @@ export default function TodoCard(props) {
       }
       );
     // check
+  };
+  const handleEditTodoBtn = async (id) => {
+    await axios.get(`http://localhost:3001/todo/${id}`)
+            .then(res => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    if (data) {
+                      setEditTodoFetch({
+                            id: data._id,
+                            title: data.title,
+                            description: data.description,
+                        });
+                        setShowEditModel(true);
+                    }
+                }
+            });
   };
 
   const handleDeleteTodoBtn = (id) => {
@@ -91,7 +113,7 @@ export default function TodoCard(props) {
               <Button onClick={() => { handleCheckTodoBtn(id) }} variant="outline-primary" size='sm'>
                 <FontAwesomeIcon icon={faCheck} />
               </Button>
-              <Button onClick={() => { }} variant="outline-info" size='sm'>
+              <Button onClick={() => { handleEditTodoBtn(id) }} variant="outline-info" size='sm'>
                 <FontAwesomeIcon icon={faPen} />
               </Button>
               <Button onClick={handleDeleteTodoBtn(id)} variant="outline-danger" size='sm'>
@@ -101,30 +123,12 @@ export default function TodoCard(props) {
           </div>
         </div>
       </Card>;
-      {/* <Card className='m-2 card'>
-        <Card.Body>
-          <Card.Title>
-            <div className='d-flex justify-content-between'>
-              <div>
-                <h6>{index + 1}. {title}</h6>
-              </div>
-              <div>
-                <ButtonGroup size="sm">
-                  <Button onClick={() => { }} variant="outline-primary" size='sm'>
-                    <FontAwesomeIcon icon={faCheck} />
-                  </Button>
-                  <Button onClick={() => { }} variant="outline-info" size='sm'>
-                    <FontAwesomeIcon icon={faPen} />
-                  </Button>
-                  <Button onClick={handleDeleteTodoBtn(id)} variant="outline-danger" size='sm'>
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                </ButtonGroup>
-              </div>
-            </div>
-          </Card.Title>
-        </Card.Body>
-      </Card> */}
+      <UpdateTodoModal 
+        showEditModel={showEditModel} 
+        editTodoFetch={editTodoFetch}
+        handleClose={handleClose} 
+        fetchTodoData={fetchTodoData}
+        />
     </div>
   )
 }
