@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal ,Form} from 'react-bootstrap'
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export default function UpdateTodoModal(props) {
 
@@ -24,8 +25,20 @@ export default function UpdateTodoModal(props) {
         e.preventDefault();
         axios.put('http://localhost:3001/todo/update', todo)
             .then(res => {
-                console.log(res);
-                fetchTodoData();
+                const { status } = res;
+                if (status === 200) {
+                    toast.info("Todo is successfully updated...!", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light"
+                    });
+                    fetchTodoData();
+                }
             }).catch(err => {
                 console.log(err);
             });

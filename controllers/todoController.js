@@ -54,18 +54,28 @@ todoController.addTodo = async (req, res) => {
 
 // update a todo
 todoController.updateTodo = async (req, res) => {
-
-    const { id, title, description } = req.body;
-    
-    let doc = await Todo.findOneAndUpdate({
-        _id: id
-    }, {
-        $set:{
-            title: title,
-        }
-    }, { new: true});
-
-    res.status(200).json(doc);
+    const { id, updateTitle, updateDescription } = req.body;
+    // find and update the todo
+    Todo.findById(id).then(todo => {
+        todo.title = updateTitle? updateTitle : todo.title;
+        todo.description = updateDescription? updateDescription : todo.description;
+        todo.save().then(() => {
+            res.status(200).json({
+                todoInformation: todo,
+                message: 'Todo is updated successfully'
+            });
+        }).catch(err => {
+            res.status(201).json({
+                errorMessage: err,
+                message: 'Something went wrong'
+            });
+        });
+    }).catch(err => {
+        res.status(201).json({
+            errorMessage: err,
+            message: 'Something went wrong'
+        });
+    });
 
 
 };
