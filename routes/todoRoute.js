@@ -8,9 +8,14 @@ const todoController = require('../controllers/todoController');
 
 router.get('/', todoController.getAllTodos);
 
+
+// Get todo history
+router.get('/history', todoController.getTodoHistory);
+
 // Get a todo by id
 
 router.get('/:id', todoController.getTodoById);
+
 
 // Add a todo
 

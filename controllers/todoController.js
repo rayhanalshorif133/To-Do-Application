@@ -26,6 +26,19 @@ todoController.getTodoById = async (req, res) => {
     res.status(200).json(todo);
 };
 
+// get a todo history
+todoController.getTodoHistory = async (req, res) => {
+    const todos = await Todo.find({
+        status: 'completed'
+    }).sort({ _id: -1 });
+
+
+    res.status(200).json({
+        data: todos,
+        message: 'Get all todos'
+    });
+};
+
 
 // add a todo
 todoController.addTodo = async (req, res) => {

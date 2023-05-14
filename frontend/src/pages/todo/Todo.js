@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import Placeholder from 'react-bootstrap/Placeholder';
+import { Button, Col, Container, Row,Alert } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import './Todo.css';
 import AddTodoModal from './_partials/Modals/AddTodoModal';
 import TodoDetails from './_partials/TodoDetails';
 import TodoList from './_partials/TodoList';
+import LoadingTodoList from './_partials/LoadingTodoList';
 
 export default function Todo() {
 
@@ -14,6 +14,7 @@ export default function Todo() {
     const [todoData, setTodoData] = useState([]);
     const [flag, setFlag] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState({});
+    const [timerFlag, setTimerFlag] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -23,6 +24,11 @@ export default function Todo() {
         description: ''
     });
 
+    useEffect(() => {
+        setTimeout(() => {
+            setTimerFlag(true);
+        },5000);
+    }, []);
 
 
     // Method to handle input change
@@ -65,6 +71,8 @@ export default function Todo() {
                     const { data } = res.data;
                     if (data.length > 0) {
                         setTodoData(data);
+                    }else{
+                        setTodoData([]);
                     }
                 }
                 setFlag(true);
@@ -106,15 +114,21 @@ export default function Todo() {
                 <Row>
                     <Col>
                         <h4>Todo List</h4>
-                        {todoData.length === 0 ?
-                            <>
-                                <Placeholder animation="glow" className='text-white'>
-                                    <Placeholder style={{ width: '60%' }} /> <br />
-                                    <Placeholder style={{ width: '40%' }} /> <br />
-                                    <Placeholder style={{ width: '25%' }} />
-                                </Placeholder>
+                        {
+                            todoData.length === 0 ? <>
+                                {
+                                    timerFlag ? 
+                                    <>
+                                        <Alert variant="danger" className='text-center'>
+                                            No Todo Found !
+                                        </Alert>
+                                    </> 
+                                    : 
+                                    <LoadingTodoList />
+                                }
                             </>
                             :
+                            
                             <TodoList todoData={todoData} fetchTodoData={fetchTodoData}
                                 setSelectedTodo={fetchTodoDataById} />
                         }

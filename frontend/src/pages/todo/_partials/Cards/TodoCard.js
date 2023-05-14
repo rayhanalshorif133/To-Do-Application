@@ -6,6 +6,7 @@ import { Button, ButtonGroup, Card } from 'react-bootstrap'
 import Swal from 'sweetalert2'
 import { GlobalVariableContext } from '../../../../contextProvider/GlobalVariableContextProvider'
 import './TodoCard.css'
+import { toast } from 'react-toastify'
 
 export default function TodoCard(props) {
 
@@ -13,13 +14,22 @@ export default function TodoCard(props) {
 
   const { index, id, title, fetchTodoData, setSelectedTodo } = props;
 
-  console.log(api_base_url);
 
   const handleCheckTodoBtn = (id) => {
     axios.put(api_base_url + 'todo/check/' + id)
       .then(res => {
         const { status } = res;
         if (status === 200) {
+          toast.info("Todo is successfully done...!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light"
+          });
           fetchTodoData();
         }
       }).catch(err => {
@@ -45,6 +55,16 @@ export default function TodoCard(props) {
             .then(res => {
               const { status } = res;
               if (status === 200) {
+                toast.warning("Todo is successfully deleted...!", {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
                 fetchTodoData();
               }
             }).catch(err => {
