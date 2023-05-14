@@ -2,12 +2,12 @@ const Todo = require('../models/todoModel');
 
 // app scaffolding module
 
-const todoController = {};
+const TodoController = {};
 
 
 // get all todos
 
-todoController.getAllTodos = async (req, res) => {
+TodoController.getAllTodos = async (req, res) => {
     const todos = await Todo.find({
         status: 'pending'
     }).sort({ _id: -1 });
@@ -19,7 +19,7 @@ todoController.getAllTodos = async (req, res) => {
 
 
 // get a todo by id
-todoController.getTodoById = async (req, res) => {
+TodoController.getTodoById = async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const todo = await Todo.findById(id);
@@ -27,7 +27,7 @@ todoController.getTodoById = async (req, res) => {
 };
 
 // get a todo history
-todoController.getTodoHistory = async (req, res) => {
+TodoController.getTodoHistory = async (req, res) => {
     const todos = await Todo.find({
         status: 'completed'
     }).sort({ _id: -1 });
@@ -41,7 +41,7 @@ todoController.getTodoHistory = async (req, res) => {
 
 
 // add a todo
-todoController.addTodo = async (req, res) => {
+TodoController.addTodo = async (req, res) => {
     const { title, description } = req.body;
     const todo = new Todo({
         title,
@@ -53,7 +53,7 @@ todoController.addTodo = async (req, res) => {
 
 
 // update a todo
-todoController.updateTodo = async (req, res) => {
+TodoController.updateTodo = async (req, res) => {
     const { id, updateTitle, updateDescription } = req.body;
     // find and update the todo
     Todo.findById(id).then(todo => {
@@ -81,7 +81,7 @@ todoController.updateTodo = async (req, res) => {
 };
 
 // update a todo
-todoController.updateCheckTodo = async (req, res) => {
+TodoController.updateCheckTodo = async (req, res) => {
     const { id } = req.params;
     const todo = await Todo.findById(id);
     todo.status = 'completed';
@@ -92,7 +92,7 @@ todoController.updateCheckTodo = async (req, res) => {
 
 
 // delete a todo
-todoController.deleteTodo = async (req, res) => {
+TodoController.deleteTodo = async (req, res) => {
 
     const { id } = req.params;
 
@@ -102,4 +102,4 @@ todoController.deleteTodo = async (req, res) => {
 };
 
 
-module.exports = todoController;
+module.exports = TodoController;
