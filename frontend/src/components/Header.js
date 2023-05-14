@@ -16,6 +16,7 @@ export default function Header() {
         navbarScroll>
         <Nav.Link href="/">Home</Nav.Link>
         <Nav.Link href="/todo">Todo</Nav.Link>
+        <Nav.Link href="/todo-history">History</Nav.Link>
        </Nav>
       </div>
       <Button variant="info">

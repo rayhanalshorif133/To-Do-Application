@@ -3,7 +3,12 @@
 }
 .todo_card .card:hover{
     cursor: pointer;
-    background: #fa3a77;
-    transform: scale(1.01);
-    color: white;
+    background: #fff9fb;
+    transform: scale(1.02);
+}
+.card_body{
+    padding: 0;
+    height: 2.8rem;
+    margin: auto;
+    justify-content: center;
 }

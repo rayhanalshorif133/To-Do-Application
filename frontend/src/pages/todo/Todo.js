@@ -1,17 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row,Alert } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import './Todo.css';
 import AddTodoModal from './_partials/Modals/AddTodoModal';
 import TodoDetails from './_partials/TodoDetails';
 import TodoList from './_partials/TodoList';
+import LoadingTodoList from './_partials/LoadingTodoList';
 
 export default function Todo() {
 
     const [show, setShow] = useState(false);
     const [todoData, setTodoData] = useState([]);
     const [flag, setFlag] = useState(false);
+    const [selectedTodo, setSelectedTodo] = useState({});
+    const [timerFlag, setTimerFlag] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -21,6 +24,11 @@ export default function Todo() {
         description: ''
     });
 
+    useEffect(() => {
+        setTimeout(() => {
+            setTimerFlag(true);
+        },5000);
+    }, []);
 
 
     // Method to handle input change
@@ -42,7 +50,7 @@ export default function Todo() {
         }
         axios.post('/todo/create', newTodo)
             .then(res => {
-                const { data, status } = res;
+                const { status } = res;
                 if (status === 200) {
                     handleClose();
                     toast.success("Todo task has been successfully added !", {
@@ -59,13 +67,33 @@ export default function Todo() {
     const fetchTodoData = async () => {
         await axios.get('http://localhost:3001/todo')
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     const { data } = res.data;
                     if (data.length > 0) {
                         setTodoData(data);
+                    }else{
+                        setTodoData([]);
                     }
                 }
                 setFlag(true);
+            });
+    };
+    
+    const fetchTodoDataById = async (id) => {
+        await axios.get(`http://localhost:3001/todo/${id}`)
+            .then(res => {
+                if (res.status === 200) {
+                    const data = res.data;
+                    if (data) {
+                        setSelectedTodo({
+                            id: data._id,
+                            title: data.title,
+                            description: data.description,
+                            status: data.status,
+                            date: data.date
+                        });
+                    }
+                }
             });
     };
 
@@ -73,8 +101,6 @@ export default function Todo() {
     useEffect(() => {
         fetchTodoData();
     }, [flag]);
-
-
 
     return (
         <div className='todo'>
@@ -89,12 +115,29 @@ export default function Todo() {
                 <Row>
                     <Col>
                         <h4>Todo List</h4>
-                        <TodoList todoData={todoData} />
+                        {
+                            todoData.length === 0 ? <>
+                                {
+                                    timerFlag ? 
+                                    <>
+                                        <Alert variant="danger" className='text-center'>
+                                            No Todo Found !
+                                        </Alert>
+                                    </> 
+                                    : 
+                                    <LoadingTodoList />
+                                }
+                            </>
+                            :
+                            
+                            <TodoList todoData={todoData} fetchTodoData={fetchTodoData}
+                                setSelectedTodo={fetchTodoDataById} />
+                        }
                     </Col>
                     <Col></Col>
                     <Col>
                         <h4>Todo Details</h4>
-                        <TodoDetails />
+                        <TodoDetails todo={selectedTodo} />
                     </Col>
                 </Row>
             </Container>
