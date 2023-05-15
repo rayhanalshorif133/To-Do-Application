@@ -1,10 +1,10 @@
 import React from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
-import Routes from "./Routes";
 import Header from "./components/Header";
 import GlobalVariableContextProvider from "./contextProvider/GlobalVariableContextProvider";
 import { ToastContainer } from 'react-toastify';
+import Routes from './Routes/Routes';
 
 
 function App() {

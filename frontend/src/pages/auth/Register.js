@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Container } from 'react-bootstrap';
-import './Register_Login.css';
+import './Auth.css';
 import { Link } from 'react-router-dom';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
@@ -93,7 +93,7 @@ export default function Register() {
 
 
   return (
-    <div className='login'>
+    <div className='auth'>
       <Container>
         <h1 className='mt-2'>
           Register

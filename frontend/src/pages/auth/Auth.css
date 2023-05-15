@@ -1,10 +1,10 @@
-.login {
+.auth {
     justify-content: center;
     align-items: center;
     text-align: center;
     color: white;
 }
-.login .w-40{
+.auth .w-40{
     width: 40%;
 }
 .form-outline .form-control {

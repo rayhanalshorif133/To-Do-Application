@@ -1,31 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Container } from 'react-bootstrap';
 import './Auth.css';
 import { Link } from 'react-router-dom';
-import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput
+}
+  from 'mdb-react-ui-kit';
 
-export default function Login() {
-
-  const [loginInfo, setLoginInfo] = useState({
-    email: '',
-    password: ''
-  });
-
-  const handleLogin = (event) => {
-    const {name, value} = event.target;
-
-    setLoginInfo(
-      ...loginInfo,
-      [name]: value
-    );
-  }
-
-  
-
+export default function Forgot() {
   return (
     <div className='auth'>
       <Container>
-        <h1 className='mt-2'>Login</h1>
+        <h1 className='mt-2'>Forgot Password</h1>
         <hr />
         <MDBContainer className="my-5 gradient-form w-40 h-auto">
           <MDBRow>
@@ -36,19 +26,17 @@ export default function Login() {
                     style={{ width: '185px' }} alt="logo" />
                 </div>
                 <p>Please login to your account</p>
-                <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' onChange={handleLogin} name/>
-                <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' onChange={handleLogin}/>
+                <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' />
+                <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' />
                 <div className="text-center pt-1 mb-5 pb-1">
                   <MDBBtn className="mb-4 w-100 gradient-custom-2">Sign in</MDBBtn>
-                  <Link to="/user/forgot" className="forgotPass">
-                    Forgot password?
-                  </Link>
+                  <a className="forgotPass" href="#!">Forgot password?</a>
                 </div>
                 <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
                   <p className="mb-0">Don't have an account?</p>
                   <MDBBtn outline className='mx-2 registerBtn'>
-                    <Link to="/user/register" className="registerBtn">
-                      Register
+                    <Link to="/user/login" className="registerBtn">
+                      Login
                     </Link>
                   </MDBBtn>
                 </div>
