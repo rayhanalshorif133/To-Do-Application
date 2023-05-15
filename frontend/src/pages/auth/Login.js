@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
-import './Login.css';
+import './Register_Login.css';
+import { Link } from 'react-router-dom';
 import {
   MDBBtn,
   MDBContainer,
@@ -34,7 +35,9 @@ export default function Login() {
                 <div className="d-flex flex-row align-items-center justify-content-center pb-4 mb-4">
                   <p className="mb-0">Don't have an account?</p>
                   <MDBBtn outline className='mx-2 registerBtn'>
-                    Register
+                    <Link to="/user/register" className="registerBtn">
+                      Register
+                    </Link>
                   </MDBBtn>
                 </div>
               </div>

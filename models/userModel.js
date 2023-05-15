@@ -33,11 +33,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         title : {
             type: String,
-            required: true
+            required: false,
         },
         description : {
             type: String,
-            required: true
+            required: false,
         },
         date : {
             type: Date,
@@ -47,5 +47,10 @@ const userSchema = new mongoose.Schema({
             type: String,
             default: 'pending'
         }
-    }],
+    },
+],
 });
+
+module.exports = mongoose.model('User', userSchema);
+
+// Path: models\todoModel.js

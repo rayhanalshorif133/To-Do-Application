@@ -7,7 +7,9 @@
 .login .w-40{
     width: 40%;
 }
-
+.form-outline .form-control {
+    background: #fdfbf9 !important;
+}
 .gradient-form{
     /* shaddow */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
