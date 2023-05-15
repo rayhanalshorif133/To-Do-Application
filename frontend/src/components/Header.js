@@ -19,8 +19,8 @@ export default function Header() {
         <Nav.Link href="/todo-history">History</Nav.Link>
        </Nav>
       </div>
-      <Button variant="info">
-       Login
+      <Button variant="info" href='/user/login'>
+         Login
       </Button>
      </Navbar.Collapse>
     </Container>

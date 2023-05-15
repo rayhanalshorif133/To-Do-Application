@@ -21,6 +21,7 @@ app.use(express.json());
 
 // Import routes
 const todoRoute = require('./routes/todoRoute');
+const userRoute = require('./routes/userRoute');
 
 
 // Connect to MongoDB
@@ -37,6 +38,7 @@ async function dbConnection() {
 
 
 // Assign routes
+app.use('/user', userRoute);
 app.use('/todo', todoRoute);
 app.use('/', (req, res) => {
   res.send('Welcome to todo api');
