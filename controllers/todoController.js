@@ -57,8 +57,8 @@ todoController.updateTodo = async (req, res) => {
     const { id, updateTitle, updateDescription } = req.body;
     // find and update the todo
     Todo.findById(id).then(todo => {
-        todo.title = updateTitle? updateTitle : todo.title;
-        todo.description = updateDescription? updateDescription : todo.description;
+        todo.title = updateTitle ? updateTitle : todo.title;
+        todo.description = updateDescription ? updateDescription : todo.description;
         todo.save().then(() => {
             res.status(200).json({
                 todoInformation: todo,

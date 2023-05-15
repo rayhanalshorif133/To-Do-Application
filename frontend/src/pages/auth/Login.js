@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import { MDBBtn, MDBCol, MDBContainer, MDBInput, MDBRow } from 'mdb-react-ui-kit';
+import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import './Auth.css';
 import { Link } from 'react-router-dom';
-import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
+import './Auth.css';
 
 export default function Login() {
 
@@ -12,15 +13,24 @@ export default function Login() {
   });
 
   const handleLogin = (event) => {
-    const {name, value} = event.target;
-
+    const { name, value } = event.target;
     setLoginInfo(
-      ...loginInfo,
-      [name]: value
-    );
+      {
+        ...loginInfo,
+        [name]: value
+      });
   }
 
-  
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post('/user/login', loginInfo)
+      .then(res => {
+        console.log(res.data);
+      });
+  }
+
+
 
   return (
     <div className='auth'>
@@ -32,14 +42,14 @@ export default function Login() {
             <MDBCol col='6' className="mb-5">
               <div className="d-flex flex-column m-5">
                 <div className="text-center">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                  <img src="/assets/images/todo_logo.png"
                     style={{ width: '185px' }} alt="logo" />
                 </div>
                 <p>Please login to your account</p>
-                <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' onChange={handleLogin} name/>
-                <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' onChange={handleLogin}/>
+                <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email' onChange={handleLogin} name="email" />
+                <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password' onChange={handleLogin} name="password" />
                 <div className="text-center pt-1 mb-5 pb-1">
-                  <MDBBtn className="mb-4 w-100 gradient-custom-2">Sign in</MDBBtn>
+                  <MDBBtn className="mb-4 w-100 gradient-custom-2" onClick={handleSubmit}>Sign in</MDBBtn>
                   <Link to="/user/forgot" className="forgotPass">
                     Forgot password?
                   </Link>
