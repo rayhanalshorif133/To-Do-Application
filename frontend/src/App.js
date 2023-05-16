@@ -1,5 +1,6 @@
 import React from "react";
-import { ToastContainer } from 'react-toastify';
+import { isExpired } from "react-jwt";
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 import Routes from './Routes/Routes';
@@ -7,8 +8,22 @@ import Header from "./components/Header";
 import CheckLoginContextProvider from "./contextProvider/CheckLoginContextProvider";
 import GlobalVariableContextProvider from "./contextProvider/GlobalVariableContextProvider";
 
-
 function App() {
+
+
+  var token = sessionStorage.getItem('token');
+  if (token) {
+    const isMyTokenExpired = isExpired(token);
+    if (isMyTokenExpired) {
+      toast.info("Your session has expired. Please login again.", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      setTimeout(() => {
+        sessionStorage.removeItem('token');
+        window.location.href = '/user/login';
+      }, 3000);
+    }
+  }
 
 
   return (
