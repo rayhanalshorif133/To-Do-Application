@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Auth.css';
+import { toast } from 'react-toastify';
 
 export default function Login() {
 
@@ -26,7 +27,49 @@ export default function Login() {
     event.preventDefault();
     axios.post('/user/login', loginInfo)
       .then(res => {
-        console.log(res.data);
+         if(res.status === 200) {
+            const {message, token} = res.data;
+            console.log(message, token);
+            if(token === undefined){
+              toast.error(message, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            }else{
+              sessionStorage.setItem('token', token);
+              toast.success(message, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                progressClassName: 'toast-progress-bar'
+              });
+              setTimeout(()=> {
+                window.location.href = '/';
+              }, 5000);
+            }
+         }else{
+          toast.info('Something went wrong...!!!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+         }
       });
   }
 

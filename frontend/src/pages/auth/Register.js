@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
 
 
 export default function Register() {
@@ -51,13 +50,10 @@ export default function Register() {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(registerData.password, 10);
-
-
     const newRegisterData = {
       username: registerData.username,
       email: registerData.email,
-      password: hashedPassword? hashedPassword : registerData.password
+      password: registerData.password
     }
 
 
