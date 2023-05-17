@@ -8,6 +8,9 @@ import { toast } from 'react-toastify';
 
 export default function Login() {
 
+
+  const BASEURL = process.env.REACT_APP_API_URL;
+
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: ''
@@ -25,11 +28,10 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('/user/login', loginInfo)
+    axios.post(`${BASEURL}/user/login`, loginInfo)
       .then(res => {
          if(res.status === 200) {
             const {message, token} = res.data;
-            console.log(message, token);
             if(token === undefined){
               toast.error(message, {
                 position: "top-center",

@@ -3,14 +3,13 @@ import { Container } from 'react-bootstrap';
 import '../Auth.css';
 import SendEmail from './SendEmail';
 import NewPassword from './NewPassword';
-import { GlobalVariableContext } from '../../../contextProvider/GlobalVariableContextProvider';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 
 export default function Forgot() {
 
-  const {api_base_url} = useContext(GlobalVariableContext);
+  const BASEURL = process.env.REACT_APP_API_URL;
   const [email, setEmail] = React.useState('');
   const [isSendEmail, setIsSendEmail] = useState(false);
   const [newPassword, setNewPassword] = React.useState({
@@ -35,7 +34,7 @@ export default function Forgot() {
   }
 
   const handleEmailSend = () => {
-    var url = api_base_url + 'user/forgot/check-email/';
+    var url = BASEURL + 'user/forgot/check-email/';
     axios.post(url, {email})
     .then(res => {
       const {message,status} = res.data;
@@ -60,7 +59,7 @@ export default function Forgot() {
   }
   
   const handleSendNewPassword = () => {
-    var url = api_base_url + 'user/forgot/new-password/';
+    var url = BASEURL + 'user/forgot/new-password/';
     if(newPassword.password !== newPassword.password_confirm){
       toast.error("Password not match",{
         position: toast.POSITION.TOP_RIGHT

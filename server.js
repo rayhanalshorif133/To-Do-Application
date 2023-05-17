@@ -13,10 +13,14 @@ const mongoose = require('mongoose')
 const dotEnv = require('dotenv')
 const app = express()
 
+
 // Configurations
 dotEnv.config();
 app.use(cors())
 app.use(express.json());
+const PORT = process.env.PORT || 3001;
+
+
 
 
 // Import routes
@@ -48,7 +52,7 @@ app.use('/', (req, res) => {
 
 
 // Start server
-app.listen(3002, function () {
-  console.log('Server started on port 3002');
+app.listen(PORT, function () {
+  console.log('Server started on port ' + PORT + ' ...');
   dbConnection();
 })

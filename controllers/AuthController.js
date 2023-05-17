@@ -41,8 +41,9 @@ authController.loginUser = async (req, res) => {
 
 
 authController.checkLogin = async (req, res, next) => {
-    const token = req.headers.authorization;
-    console.log(token);
+    // const token = req.headers.authorization;
+    // console.log(token);
+    next();
     // if (token) {
     //  jwt.verify(token, privateKey, function (err, decoded) {
     //   if (err) {

@@ -19,6 +19,8 @@ export default function Todo() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const BASEURL = process.env.REACT_APP_API_URL;
+
     const [todo, setTodo] = useState({
         title: '',
         description: ''
@@ -48,7 +50,7 @@ export default function Todo() {
             title: todo.title,
             description: todo.description
         }
-        axios.post('/todo/create', newTodo)
+        axios.post(`${BASEURL}/todo/create`, newTodo)
             .then(res => {
                 const { status } = res;
                 if (status === 200) {
@@ -65,7 +67,7 @@ export default function Todo() {
 
 
     const fetchTodoData = async () => {
-        await axios.get('http://localhost:3001/todo')
+        await axios.get(`${BASEURL}/todo`)
             .then(res => {
                 if (res.status === 200) {
                     const { data } = res.data;
@@ -80,7 +82,7 @@ export default function Todo() {
     };
     
     const fetchTodoDataById = async (id) => {
-        await axios.get(`http://localhost:3001/todo/${id}`)
+        await axios.get(`${BASEURL}/todo/${id}`)
             .then(res => {
                 if (res.status === 200) {
                     const data = res.data;

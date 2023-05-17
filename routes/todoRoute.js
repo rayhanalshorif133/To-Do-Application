@@ -19,7 +19,7 @@ router.get('/:id', TodoController.getTodoById);
 
 // Add a todo
 
-router.post('/create', TodoController.addTodo);
+router.post('/create',AuthController.checkLogin, TodoController.addTodo);
 
 // Update a todo
 

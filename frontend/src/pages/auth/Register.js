@@ -9,6 +9,9 @@ import axios from 'axios';
 
 export default function Register() {
 
+
+  const BASEURL = process.env.REACT_APP_API_URL;
+
   const errorToast = (title) => {
     toast.error(title, {
       position: "top-center",
@@ -57,7 +60,7 @@ export default function Register() {
     }
 
 
-    axios.post('/user/create', newRegisterData)
+    axios.post(`${BASEURL}/user/create`, newRegisterData)
       .then(res => {
         if(res.status === 200) {
           toast.success('Successfully registered!', {
