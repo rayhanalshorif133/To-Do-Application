@@ -1,3 +1,4 @@
+const DBConnection = require('../connection');
 const Todo = require('../models/todoModel');
 
 // app scaffolding module
@@ -42,14 +43,22 @@ todoController.getTodoHistory = async (req, res) => {
 
 // add a todo
 todoController.addTodo = async (req, res) => {
-    const { title, description } = req.body;
-    console.log(req);
-    const todo = new Todo({
-        title,
-        description
-    });
-    const newTodo = await todo.save();
-    res.status(200).json(newTodo);
+
+    if(DBConnection()){
+        const { title, description } = req.body;
+        const todo = new Todo({
+            title,
+            description
+        });
+        const newTodo = await todo.save();
+    
+        console.log(newTodo);
+    
+        res.status(200).json({
+            todoInformation: newTodo,
+        });
+    }
+
 };
 
 

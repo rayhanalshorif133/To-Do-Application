@@ -9,7 +9,6 @@
 // Dependencies
 const express = require('express')
 const cors = require('cors')
-const mongoose = require('mongoose')
 const dotEnv = require('dotenv')
 const app = express()
 
@@ -18,6 +17,8 @@ const app = express()
 dotEnv.config();
 app.use(cors())
 app.use(express.json());
+
+
 const PORT = process.env.PORT || 3001;
 
 
@@ -27,19 +28,9 @@ const PORT = process.env.PORT || 3001;
 const todoRoute = require('./routes/todoRoute');
 const userRoute = require('./routes/userRoute');
 const authRoute = require('./routes/authRoute');
+const DBConnection = require('./connection')
 
 
-// Connect to MongoDB
-const uri = process.env.ATLAS_URI;
-
-async function dbConnection() {
-
-  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then((db) => {
-      console.log('Connected correctly to MongoDB');
-    })
-    .catch((err) => console.log("DB Connection Error: "));
-}
 
 
 // Assign routes
@@ -54,5 +45,5 @@ app.use('/', (req, res) => {
 // Start server
 app.listen(PORT, function () {
   console.log('Server started on port ' + PORT + ' ...');
-  dbConnection();
+  DBConnection();
 })

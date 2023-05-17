@@ -44,20 +44,45 @@ export default function Todo() {
 
 
     // Method to handle form submit
+
+    /*
+    
+    {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+            }
+    */ 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const newTodo = {
             title: todo.title,
             description: todo.description
         }
-        axios.post(`${BASEURL}/todo/create`, newTodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } })
+        axios.post(`${BASEURL}/todo/create`, newTodo,{
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                },
+        })
             .then(res => {
                 const { status } = res;
                 if (status === 200) {
+                    const data = res.data;
                     handleClose();
-                    toast.success("Todo task has been successfully added !", {
-                        position: toast.POSITION.TOP_CENTER
-                    });
+                    const newMessage = res.data.message? res.data.message : "Todo task has been successfully added !";
+                    if(data.status){
+                        toast.success(newMessage, {
+                            position: toast.POSITION.TOP_CENTER
+                        });
+                    }else{
+                        toast.error(newMessage, {
+                            position: toast.POSITION.TOP_CENTER
+                        });
+                    }
+
                     fetchTodoData();
                 }
             }).catch(err => {
