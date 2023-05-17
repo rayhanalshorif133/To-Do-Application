@@ -2,16 +2,15 @@ import { faCheck, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
-import { Button, ButtonGroup, Card, Modal } from 'react-bootstrap'
+import { Button, ButtonGroup, Card } from 'react-bootstrap'
 import Swal from 'sweetalert2'
-import { GlobalVariableContext } from '../../../../contextProvider/GlobalVariableContextProvider'
 import './TodoCard.css'
 import { toast } from 'react-toastify'
 import UpdateTodoModal from '../Modals/UpdateTodoModal'
 
 export default function TodoCard(props) {
 
-  const { api_base_url } = useContext(GlobalVariableContext)
+  const BASEURL  = process.env.REACT_APP_API_URL;
 
   const { index, id, title, fetchTodoData, setSelectedTodo } = props;
 
@@ -22,7 +21,7 @@ export default function TodoCard(props) {
 
 
   const handleCheckTodoBtn = (id) => {
-    axios.put(api_base_url + 'todo/check/' + id)
+    axios.put(BASEURL + 'todo/check/' + id)
       .then(res => {
         const { status } = res;
         if (status === 200) {
@@ -45,7 +44,7 @@ export default function TodoCard(props) {
     // check
   };
   const handleEditTodoBtn = async (id) => {
-    await axios.get(`http://localhost:3001/todo/${id}`)
+    await axios.get(`${BASEURL}/todo/${id}`)
             .then(res => {
                 if (res.status === 200) {
                     const data = res.data;
@@ -73,7 +72,7 @@ export default function TodoCard(props) {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(` http://localhost:3001/todo/${id}`)
+          axios.delete(`${BASEURL}/todo/${id}`)
             .then(res => {
               const { status } = res;
               if (status === 200) {

@@ -1,3 +1,4 @@
+const DBConnection = require('../connection');
 const Todo = require('../models/todoModel');
 
 // app scaffolding module
@@ -42,13 +43,22 @@ todoController.getTodoHistory = async (req, res) => {
 
 // add a todo
 todoController.addTodo = async (req, res) => {
-    const { title, description } = req.body;
-    const todo = new Todo({
-        title,
-        description
-    });
-    const newTodo = await todo.save();
-    res.status(200).json(newTodo);
+
+    if(DBConnection()){
+        const { title, description } = req.body;
+        const todo = new Todo({
+            title,
+            description
+        });
+        const newTodo = await todo.save();
+    
+        console.log(newTodo);
+    
+        res.status(200).json({
+            todoInformation: newTodo,
+        });
+    }
+
 };
 
 
@@ -57,8 +67,8 @@ todoController.updateTodo = async (req, res) => {
     const { id, updateTitle, updateDescription } = req.body;
     // find and update the todo
     Todo.findById(id).then(todo => {
-        todo.title = updateTitle? updateTitle : todo.title;
-        todo.description = updateDescription? updateDescription : todo.description;
+        todo.title = updateTitle ? updateTitle : todo.title;
+        todo.description = updateDescription ? updateDescription : todo.description;
         todo.save().then(() => {
             res.status(200).json({
                 todoInformation: todo,
@@ -93,10 +103,7 @@ todoController.updateCheckTodo = async (req, res) => {
 
 // delete a todo
 todoController.deleteTodo = async (req, res) => {
-
     const { id } = req.params;
-
-    console.log(id);
     const deletedTodo = await Todo.findByIdAndRemove(id);
     res.status(200).json(deletedTodo);
 };

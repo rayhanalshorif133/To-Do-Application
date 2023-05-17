@@ -20,9 +20,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        trim: true,
-        minlength: [4, 'Password must be at least 4 characters long'],
-        maxlength: [20, 'Password must be at most 20 characters long'],
     },
     role: {
         type: String,
@@ -33,11 +30,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         title : {
             type: String,
-            required: true
+            required: false,
         },
         description : {
             type: String,
-            required: true
+            required: false,
         },
         date : {
             type: Date,
@@ -47,5 +44,10 @@ const userSchema = new mongoose.Schema({
             type: String,
             default: 'pending'
         }
-    }],
+    },
+],
 });
+
+module.exports = mongoose.model('User', userSchema);
+
+// Path: models\todoModel.js

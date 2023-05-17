@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Table } from 'react-bootstrap';
 import './TodoHistory.css';
 import axios from 'axios';
 import moment from 'moment';
