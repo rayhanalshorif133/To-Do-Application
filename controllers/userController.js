@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-
+const bcrypt = require("bcrypt");
 // app scaffolding module
 
 const userController = {};
@@ -17,6 +17,8 @@ userController.createUser = async (req, res) => {
 
         const { username, email, password } = req.body;
 
+        // hash password
+        const hashPassword = await bcrypt.hash(password, 10);
         // search for users
         const isUser = await User.findOne({ username: username }) ? true : false;
 
@@ -30,7 +32,7 @@ userController.createUser = async (req, res) => {
         const user = new User({
             username,
             email,
-            password
+            hashPassword
         });
         const newUser = await user.save();
         res.status(200).json({

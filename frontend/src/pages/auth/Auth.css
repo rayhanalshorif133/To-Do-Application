@@ -109,6 +109,11 @@
     background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
     background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
 }
+.gradient-custom-3 {
+    /* fallback for old browsers */
+    background: linear-gradient(to right, #e60f00, #ff1100, #ff0000, #e19792);
+
+}
 
 @media (min-width: 768px) {
     .gradient-form {

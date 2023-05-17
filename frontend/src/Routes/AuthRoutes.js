@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
-import Forgot from './../pages/auth/Forgot';
 import Login from './../pages/auth/Login';
 import Register from './../pages/auth/Register';
+import Forgot from './../pages/auth/forgot_password/Forgot';
 
 let isLogin = false;
 sessionStorage.getItem('token') ? isLogin = true : isLogin = false;

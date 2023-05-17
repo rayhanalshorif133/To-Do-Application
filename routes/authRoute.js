@@ -9,4 +9,10 @@ router.post('/login', AuthController.loginUser);
 
 // create a user
 
+// forgot password
+router.post('/forgot/check-email', AuthController.checkEmail);
+
+// forgot password
+router.post('/forgot/new-password', AuthController.setNewPassword);
+
 module.exports = router;
