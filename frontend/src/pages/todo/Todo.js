@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row,Alert } from 'react-bootstrap';
+import { Button, Col, Container, Row, Alert } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import './Todo.css';
 import AddTodoModal from './_partials/Modals/AddTodoModal';
@@ -29,7 +29,7 @@ export default function Todo() {
     useEffect(() => {
         setTimeout(() => {
             setTimerFlag(true);
-        },5000);
+        }, 5000);
     }, []);
 
 
@@ -50,7 +50,7 @@ export default function Todo() {
             title: todo.title,
             description: todo.description
         }
-        axios.post(`${BASEURL}/todo/create`, newTodo)
+        axios.post(`${BASEURL}/todo/create`, newTodo, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } })
             .then(res => {
                 const { status } = res;
                 if (status === 200) {
@@ -73,14 +73,14 @@ export default function Todo() {
                     const { data } = res.data;
                     if (data.length > 0) {
                         setTodoData(data);
-                    }else{
+                    } else {
                         setTodoData([]);
                     }
                 }
                 setFlag(true);
             });
     };
-    
+
     const fetchTodoDataById = async (id) => {
         await axios.get(`${BASEURL}/todo/${id}`)
             .then(res => {
@@ -120,20 +120,20 @@ export default function Todo() {
                         {
                             todoData.length === 0 ? <>
                                 {
-                                    timerFlag ? 
-                                    <>
-                                        <Alert variant="danger" className='text-center'>
-                                            No Todo Found !
-                                        </Alert>
-                                    </> 
-                                    : 
-                                    <LoadingTodoList />
+                                    timerFlag ?
+                                        <>
+                                            <Alert variant="danger" className='text-center'>
+                                                No Todo Found !
+                                            </Alert>
+                                        </>
+                                        :
+                                        <LoadingTodoList />
                                 }
                             </>
-                            :
-                            
-                            <TodoList todoData={todoData} fetchTodoData={fetchTodoData}
-                                setSelectedTodo={fetchTodoDataById} />
+                                :
+
+                                <TodoList todoData={todoData} fetchTodoData={fetchTodoData}
+                                    setSelectedTodo={fetchTodoDataById} />
                         }
                     </Col>
                     <Col></Col>

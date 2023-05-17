@@ -44,7 +44,7 @@ export default function TodoCard(props) {
     // check
   };
   const handleEditTodoBtn = async (id) => {
-    await axios.get(`http://localhost:3001/todo/${id}`)
+    await axios.get(`${BASEURL}/todo/${id}`)
             .then(res => {
                 if (res.status === 200) {
                     const data = res.data;
@@ -72,7 +72,7 @@ export default function TodoCard(props) {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(` http://localhost:3001/todo/${id}`)
+          axios.delete(`${BASEURL}/todo/${id}`)
             .then(res => {
               const { status } = res;
               if (status === 200) {

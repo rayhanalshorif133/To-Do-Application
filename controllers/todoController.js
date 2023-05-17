@@ -43,6 +43,7 @@ todoController.getTodoHistory = async (req, res) => {
 // add a todo
 todoController.addTodo = async (req, res) => {
     const { title, description } = req.body;
+    console.log(req);
     const todo = new Todo({
         title,
         description
@@ -93,10 +94,7 @@ todoController.updateCheckTodo = async (req, res) => {
 
 // delete a todo
 todoController.deleteTodo = async (req, res) => {
-
     const { id } = req.params;
-
-    console.log(id);
     const deletedTodo = await Todo.findByIdAndRemove(id);
     res.status(200).json(deletedTodo);
 };

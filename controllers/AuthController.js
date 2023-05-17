@@ -41,25 +41,24 @@ authController.loginUser = async (req, res) => {
 
 
 authController.checkLogin = async (req, res, next) => {
-    // const token = req.headers.authorization;
-    // console.log(token);
-    next();
-    // if (token) {
-    //  jwt.verify(token, privateKey, function (err, decoded) {
-    //   if (err) {
-    //    return res.status(200).json({
-    //     message: 'Invalid token',
-    //    });
-    //   } else {
-    //    req.decoded = decoded;
-    //    next();
-    //   }
-    //  });
-    // } else {
-    //  return res.status(200).json({
-    //   message: 'No token provided.',
-    //  });
-    // }
+    const token = req.headers.authorization;
+    if(token === undefined){
+        return res.status(200).json({
+            message: 'No token provided.',
+        });
+    }else{
+        jwt.verify(token, privateKey, function (err, decoded) {
+            if(!err && decoded){
+                req.user_info = decoded;
+                next();
+            }else{
+                return res.status(200).json({
+                    message: 'Invalid token',
+                });
+            }
+        });
+        next();
+    }
 }
 
 
