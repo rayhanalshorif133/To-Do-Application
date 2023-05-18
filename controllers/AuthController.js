@@ -42,16 +42,24 @@ authController.loginUser = async (req, res) => {
 
 authController.checkLogin = async (req, res, next) => {
 
-    const token = req.headers.authorization;
+    var token = req.headers.authorization;
+
     if(token == undefined){
         return res.status(200).json({
             message: 'No token provided.',
             status: false,
         });
     }else{
+        token = token.split(' ')[1];
         jwt.verify(token, privateKey, function (err, decoded) {
             if(!err && decoded){
-                console.log(decoded);
+                const userInfo = {
+                    _id: decoded.data._id,
+                    username: decoded.data.username,
+                    email: decoded.data.email,
+                    role: decoded.data.role,
+                }
+                req.user = userInfo;
                 next();
             }else{
                 return res.status(200).json({
@@ -60,7 +68,6 @@ authController.checkLogin = async (req, res, next) => {
                 });
             }
         });
-        next();
     }
 }
 

@@ -32,7 +32,7 @@ userController.createUser = async (req, res) => {
         const user = new User({
             username,
             email,
-            hashPassword
+            password:hashPassword
         });
         const newUser = await user.save();
         res.status(200).json({
@@ -40,6 +40,7 @@ userController.createUser = async (req, res) => {
             data: newUser
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             message: 'Server error',
             error: error.message
