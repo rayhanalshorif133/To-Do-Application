@@ -43,16 +43,35 @@ authController.loginUser = async (req, res) => {
 authController.checkLogin = async (req, res, next) => {
 
     var token = req.headers.authorization;
+<<<<<<< HEAD
     if (token == undefined) {
+=======
+
+    if(token == undefined){
+>>>>>>> 3a5f67be5d669d21109cf6c7cc4a83ab3035c996
         return res.status(200).json({
             message: 'No token provided.',
             status: false,
         });
+<<<<<<< HEAD
     } else {
         token = token.split(' ')[1];
         jwt.verify(token, privateKey, function (err, decoded) {
             if (!err && decoded) {
                 console.log(decoded);
+=======
+    }else{
+        token = token.split(' ')[1];
+        jwt.verify(token, privateKey, function (err, decoded) {
+            if(!err && decoded){
+                const userInfo = {
+                    _id: decoded.data._id,
+                    username: decoded.data.username,
+                    email: decoded.data.email,
+                    role: decoded.data.role,
+                }
+                req.user = userInfo;
+>>>>>>> 3a5f67be5d669d21109cf6c7cc4a83ab3035c996
                 next();
             } else {
                 return res.status(200).json({
@@ -61,7 +80,6 @@ authController.checkLogin = async (req, res, next) => {
                 });
             }
         });
-        next();
     }
 }
 

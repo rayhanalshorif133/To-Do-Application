@@ -1,5 +1,6 @@
 const DBConnection = require('../connection');
 const Todo = require('../models/todoModel');
+const User = require('../models/userModel');
 
 // app scaffolding module
 
@@ -44,19 +45,34 @@ todoController.getTodoHistory = async (req, res) => {
 // add a todo
 todoController.addTodo = async (req, res) => {
 
-    if(DBConnection()){
+    if (DBConnection()) {
         const { title, description } = req.body;
         const todo = new Todo({
             title,
             description
         });
         const newTodo = await todo.save();
-    
-        console.log(newTodo);
-    
-        res.status(200).json({
-            todoInformation: newTodo,
-        });
+        if (req.user && newTodo) {
+            const updateUser = await User.findOneAndUpdate(
+                {  _id: req.user._id },
+                { $push: { todos: newTodo._id } },
+                { new: true }
+            );
+            res.status(200).json({
+                todoInformation: {
+                    todo: newTodo,
+                    user: updateUser
+                },
+                message: 'Todo is added successfully',
+                status: true
+            });
+        }else{
+            res.status(200).json({
+                message: 'Server side error',
+                status: false
+            });
+        }
+
     }
 
 };
