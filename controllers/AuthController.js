@@ -42,18 +42,19 @@ authController.loginUser = async (req, res) => {
 
 authController.checkLogin = async (req, res, next) => {
 
-    const token = req.headers.authorization;
-    if(token == undefined){
+    var token = req.headers.authorization;
+    if (token == undefined) {
         return res.status(200).json({
             message: 'No token provided.',
             status: false,
         });
-    }else{
+    } else {
+        token = token.split(' ')[1];
         jwt.verify(token, privateKey, function (err, decoded) {
-            if(!err && decoded){
+            if (!err && decoded) {
                 console.log(decoded);
                 next();
-            }else{
+            } else {
                 return res.status(200).json({
                     message: 'Invalid token',
                     status: false,
@@ -101,6 +102,13 @@ authController.setNewPassword = async (req, res) => {
         );
         res.json({ user: updatedUser, message: 'Password updated successfully', status: true });
     }
+};
+
+
+authController.authUserInfo = async (req, res) => {
+    res.status(200).json({
+        message: 'User info',
+    });
 };
 
 

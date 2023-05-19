@@ -1,16 +1,35 @@
-import React from 'react';
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import { Badge, Button, Container, Nav, Navbar } from 'react-bootstrap';
 import './Header.css';
 
 export default function Header() {
 
+   const BASEAPIURL = process.env.REACT_APP_API_URL;
    let isLogin = false;
-   sessionStorage.getItem('token') ? isLogin = true : isLogin = false;
+   const token = sessionStorage.getItem('token');
+   token ? isLogin = true : isLogin = false;
 
    const handleLogout = () => {
       sessionStorage.removeItem('token');
       window.location.href = '/user/login';
    };
+
+   useEffect(() => {
+      // /auth/user-info
+      console.log("isLogin", BASEAPIURL);
+      if (isLogin) {
+         const URL = BASEAPIURL + '/user/auth/user-info';
+         axios.get(URL, {
+            headers: {
+               'Authorization': `Bearer ${token}`
+            },
+         })
+            .then(response => {
+               console.log(response.data);
+            });
+      }
+   }, [isLogin]);
 
    return (
       <>
@@ -33,6 +52,7 @@ export default function Header() {
                   </div>
                   {
                      isLogin ? <>
+                        <Badge bg="secondary" className="m-2">New</Badge>
                         <Button variant="danger" onClick={handleLogout}>
                            Logout
                         </Button>
