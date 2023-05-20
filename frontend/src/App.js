@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from "react";
 import { isExpired } from "react-jwt";
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,7 +7,6 @@ import Routes from './Routes/Routes';
 import Header from "./components/Header";
 import CheckLoginContextProvider from "./contextProvider/CheckLoginContextProvider";
 function App() {
-
 
   var token = sessionStorage.getItem('token');
   if (token) {

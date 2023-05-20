@@ -43,27 +43,16 @@ authController.loginUser = async (req, res) => {
 authController.checkLogin = async (req, res, next) => {
 
     var token = req.headers.authorization;
-<<<<<<< HEAD
-    if (token == undefined) {
-=======
 
-    if(token == undefined){
->>>>>>> 3a5f67be5d669d21109cf6c7cc4a83ab3035c996
+    if (token == undefined) {
         return res.status(200).json({
             message: 'No token provided.',
             status: false,
         });
-<<<<<<< HEAD
     } else {
         token = token.split(' ')[1];
         jwt.verify(token, privateKey, function (err, decoded) {
             if (!err && decoded) {
-                console.log(decoded);
-=======
-    }else{
-        token = token.split(' ')[1];
-        jwt.verify(token, privateKey, function (err, decoded) {
-            if(!err && decoded){
                 const userInfo = {
                     _id: decoded.data._id,
                     username: decoded.data.username,
@@ -71,7 +60,6 @@ authController.checkLogin = async (req, res, next) => {
                     role: decoded.data.role,
                 }
                 req.user = userInfo;
->>>>>>> 3a5f67be5d669d21109cf6c7cc4a83ab3035c996
                 next();
             } else {
                 return res.status(200).json({
@@ -125,7 +113,13 @@ authController.setNewPassword = async (req, res) => {
 
 authController.authUserInfo = async (req, res) => {
     res.status(200).json({
+        user_info: {
+            userName: req.user.username,
+            email: req.user.email,
+            role: req.user.role,
+        },
         message: 'User info',
+        status: true,
     });
 };
 

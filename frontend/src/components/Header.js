@@ -5,10 +5,19 @@ import './Header.css';
 
 export default function Header() {
 
+   const [user, setUser] = React.useState({});
    const BASEAPIURL = process.env.REACT_APP_API_URL;
    let isLogin = false;
    const token = sessionStorage.getItem('token');
    token ? isLogin = true : isLogin = false;
+
+   const Headers =
+   {
+      headers: {
+         'Authorization': `Bearer ${token}`
+      },
+   };
+
 
    const handleLogout = () => {
       sessionStorage.removeItem('token');
@@ -17,19 +26,17 @@ export default function Header() {
 
    useEffect(() => {
       // /auth/user-info
-      console.log("isLogin", BASEAPIURL);
       if (isLogin) {
          const URL = BASEAPIURL + '/user/auth/user-info';
-         axios.get(URL, {
-            headers: {
-               'Authorization': `Bearer ${token}`
-            },
-         })
+         axios.get(URL, Headers)
             .then(response => {
-               console.log(response.data);
+               const { user_info, status } = response.data;
+               if (status == true) {
+                  setUser(user_info);
+               }
             });
       }
-   }, [isLogin]);
+   }, [isLogin, BASEAPIURL]);
 
    return (
       <>
@@ -52,7 +59,9 @@ export default function Header() {
                   </div>
                   {
                      isLogin ? <>
-                        <Badge bg="secondary" className="m-2">New</Badge>
+                        <Badge bg="secondary" className="m-2">
+                           {user ? user.userName : 'NotFound'}
+                        </Badge>
                         <Button variant="danger" onClick={handleLogout}>
                            Logout
                         </Button>
