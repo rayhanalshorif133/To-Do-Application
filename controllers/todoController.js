@@ -10,35 +10,67 @@ const todoController = {};
 // get all todos
 
 todoController.getAllTodos = async (req, res) => {
-    const todos = await Todo.find({
-        status: 'pending'
-    }).sort({ _id: -1 });
-    res.status(200).json({
-        data: todos,
-        message: 'Get all todos'
-    });
+
+    const user = await User.findById(req.user._id).populate('todos');
+
+    if (user.todos.length > 0) {
+        // get all todos by user.todos
+        const todos = await Todo.find({
+            _id: { $in: user.todos },
+            status: 'pending'
+        }).sort({ _id: -1 });
+        res.status(200).json({
+            data: todos,
+            message: 'Get all todos',
+            status: true
+        });
+    } else {
+        res.status(200).json({
+            data: [],
+            message: 'Get all todos',
+            status: false
+        });
+    }
 };
 
 
 // get a todo by id
 todoController.getTodoById = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
     const todo = await Todo.findById(id);
     res.status(200).json(todo);
 };
 
 // get a todo history
 todoController.getTodoHistory = async (req, res) => {
-    const todos = await Todo.find({
-        status: 'completed'
-    }).sort({ _id: -1 });
+    const user = await User.findById(req.user._id).populate('todos');
 
-
-    res.status(200).json({
-        data: todos,
-        message: 'Get all todos'
-    });
+    if (user.todos.length > 0) {
+        // get all todos by user.todos
+        const todos = await Todo.find({
+            _id: { $in: user.todos },
+            status: 'completed'
+        }).sort({ _id: -1 });
+        if (todos.length > 0) {
+            res.status(200).json({
+                data: todos,
+                message: 'Get all todos',
+                status: true
+            });
+        } else {
+            res.status(200).json({
+                data: [],
+                message: 'Get all todos',
+                status: false
+            });
+        }
+    } else {
+        res.status(200).json({
+            data: [],
+            message: 'Get all todos',
+            status: false
+        });
+    }
 };
 
 
@@ -49,12 +81,13 @@ todoController.addTodo = async (req, res) => {
         const { title, description } = req.body;
         const todo = new Todo({
             title,
-            description
+            description,
+            user: req.user._id
         });
         const newTodo = await todo.save();
         if (req.user && newTodo) {
             const updateUser = await User.findOneAndUpdate(
-                {  _id: req.user._id },
+                { _id: req.user._id },
                 { $push: { todos: newTodo._id } },
                 { new: true }
             );
@@ -66,7 +99,7 @@ todoController.addTodo = async (req, res) => {
                 message: 'Todo is added successfully',
                 status: true
             });
-        }else{
+        } else {
             res.status(200).json({
                 message: 'Server side error',
                 status: false
@@ -109,6 +142,7 @@ todoController.updateTodo = async (req, res) => {
 // update a todo
 todoController.updateCheckTodo = async (req, res) => {
     const { id } = req.params;
+    console.log(id);
     const todo = await Todo.findById(id);
     todo.status = 'completed';
     const updatedTodo = await todo.save();

@@ -1,20 +1,24 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema({
-    title : {
+    title: {
         type: String,
         required: true
     },
-    description : {
+    description: {
         type: String,
         required: true
     },
-    date : {
+    date: {
         type: Date,
         default: Date.now
     },
     status: {
         type: String,
         default: 'pending'
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 

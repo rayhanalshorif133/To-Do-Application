@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row, Alert } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import './Todo.css';
+import LoadingTodoList from './_partials/LoadingTodoList';
 import AddTodoModal from './_partials/Modals/AddTodoModal';
 import TodoDetails from './_partials/TodoDetails';
 import TodoList from './_partials/TodoList';
-import LoadingTodoList from './_partials/LoadingTodoList';
 
 export default function Todo() {
 
@@ -53,7 +53,7 @@ export default function Todo() {
                     'Content-Type': 'application/json'
                 },
             }
-    */ 
+    */
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -61,23 +61,23 @@ export default function Todo() {
             title: todo.title,
             description: todo.description
         }
-        axios.post(`${BASEURL}/todo/create`, newTodo,{
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-                    'Content-Type': 'application/json',
-                },
+        axios.post(`${BASEURL}/todo/create`, newTodo, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
+            },
         })
             .then(res => {
                 const { status } = res;
                 if (status === 200) {
                     const data = res.data;
                     handleClose();
-                    const newMessage = res.data.message? res.data.message : "Todo task has been successfully added !";
-                    if(data.status){
+                    const newMessage = res.data.message ? res.data.message : "Todo task has been successfully added !";
+                    if (data.status) {
                         toast.success(newMessage, {
                             position: toast.POSITION.TOP_CENTER
                         });
-                    }else{
+                    } else {
                         toast.error(newMessage, {
                             position: toast.POSITION.TOP_CENTER
                         });
@@ -92,7 +92,13 @@ export default function Todo() {
 
 
     const fetchTodoData = async () => {
-        await axios.get(`${BASEURL}/todo`)
+        await axios.get(`${BASEURL}/todo`, {
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
+            },
+        }
+        )
             .then(res => {
                 if (res.status === 200) {
                     const { data } = res.data;
